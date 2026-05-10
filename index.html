@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belgatrans x Yatek</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #cc1a1a;
+    --red-dark: #8a0f0f;
+    --red-mid: #aa1515;
+    --white: #ffffff;
+    --off-white: rgba(255,255,255,0.85);
+    --muted: rgba(255,255,255,0.45);
+    --bg: #080808;
+    --slide-duration: 6s;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  body {
+    display: grid;
+    /* TOP: header / MIDDLE: slide zone / BOTTOM: team */
+    grid-template-rows: 9vh 4vh 52vh auto 1fr;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4vw;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /*
+  ══════════════════════════════════════════════
+    ► IMAGE BELGATRANS x YATEK (complète)
+    Remplace le src ci-dessous par le chemin
+    vers ton fichier, par exemple :
+      src="./images/belgatrans-x-yatek.png"
+    Hauteur recommandée : 7vh
+  ══════════════════════════════════════════════
+  */
+  .logo-main {
+    height: 7vh;
+    object-fit: contain;
+  }
+
+  /* ─── SECTION TITLE BAR ─── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    padding: 0 4vw;
+    background: var(--bg);
+  }
+
+  .section-title h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 3vh, 36px);
+    color: var(--red);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ─── SLIDE ZONE ─── */
+  .slider {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #c40000 0%, #7a0000 35%, #2a0000 65%, #0d0d0d 100%);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3vh 5vw;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .slide-cat {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(10px, 1.4vh, 16px);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,210,210,0.7);
+    margin-bottom: 1.2vh;
+  }
+
+  .slide-txt {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 7vh, 80px);
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5vh;
+    max-width: 85%;
+  }
+
+  .slide-det {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(12px, 1.8vh, 22px);
+    color: rgba(255,255,255,0.55);
+    line-height: 1.55;
+    max-width: 70%;
+  }
+
+  /* ─── PROGRESS + DOTS ─── */
+  .progress-track {
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--red);
+    width: 0%;
+  }
+
+  .dots-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 1vh 0;
+    background: var(--bg);
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .dot.active {
+    background: var(--white);
+    transform: scale(1.25);
+  }
+
+  /* ─── TEAM SECTION ─── */
+  .team-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 2vh 0 2.5vh;
+    gap: 2vh;
+  }
+
+  .team-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12px, 1.8vh, 22px);
+    letter-spacing: 0.4em;
+    color: var(--red);
+    text-transform: uppercase;
+  }
+
+  .team-members {
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+    align-items: flex-start;
+  }
+
+  .member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2vh;
+  }
+
+  /*
+  ══════════════════════════════════════════════
+    ► PHOTOS DE L'ÉQUIPE
+    Chaque avatar <img> ci-dessous a un src vide.
+    Remplace-le par le chemin vers la photo,
+    par exemple :
+      src="./photos/touati-elicia.jpg"
+    Format recommandé : carré, min 300×300px
+  ══════════════════════════════════════════════
+  */
+  .avatar {
+    width: clamp(60px, 9vh, 110px);
+    height: clamp(60px, 9vh, 110px);
+    border-radius: 50%;
+    object-fit: cover;
+    background: #2a2a2a;
+    /* fallback si l'image ne charge pas : */
+    display: block;
+  }
+
+  .member-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(14px, 2vh, 24px);
+    color: var(--white);
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header>
+  <div class="logo-group">
+    <!--
+      ► IMAGE COMPLÈTE "BELGATRANS x YATEK"
+      Remplace src="" par le chemin de ton image
+      Exemple : src="./images/belgatrans-x-yatek.png"
+    -->
+    <img class="logo-main" src="BelgatransXyatek.png" alt="Belgatrans x Yatek">
+  </div>
+</header>
+
+<!-- ═══════ TITRE ═══════ -->
+<div class="section-title">
+  <h1>Conseils de prospection</h1>
+</div>
+
+<!-- ═══════ SLIDER ═══════ -->
+<div class="slider" id="slider"></div>
+
+<!-- ═══════ PROGRESS ═══════ -->
+<div class="progress-track">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<!-- ═══════ DOTS ═══════ -->
+<div class="dots-row" id="dotsRow"></div>
+
+<!-- ═══════ ÉQUIPE ═══════ -->
+<div class="team-section">
+  <div class="team-label">L'Équipe</div>
+  <div class="team-members">
+
+    <div class="member">
+      <!--
+        ► PHOTO TOUATI ELICIA
+        Remplace src="" par le chemin de sa photo
+        Exemple : src="./photos/touati-elicia.jpg"
+      -->
+      <img class="avatar" src="" alt="Touati Elicia">
+      <div class="member-name">Touati<br>Elicia</div>
+    </div>
+
+    <div class="member">
+      <!--
+        ► PHOTO ZOUBIRI ABDELJALIL
+        Exemple : src="./photos/zoubiri-abdeljalil.jpg"
+      -->
+      <img class="avatar" src="" alt="Zoubiri Abdeljalil">
+      <div class="member-name">Zoubiri<br>Abdeljalil</div>
+    </div>
+
+    <div class="member">
+      <!--
+        ► PHOTO DALI NEDJMA
+        Exemple : src="./photos/dali-nedjma.jpg"
+      -->
+      <img class="avatar" src="" alt="Dali Nedjma">
+      <div class="member-name">Dali<br>Nedjma</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DURATION = 6000;
+
+const conseils = [
+  { cat: "Réactivité", txt: "Proposez une solution en moins de 60 minutes", det: "L'engagement Belgatrans — chaque client mérite une réponse rapide et personnalisée." },
+  { cat: "Disponibilité", txt: "24h/24, 7j/7 : soyez toujours joignables", det: "La logistique ne s'arrête jamais. Votre disponibilité est un avantage décisif." },
+  { cat: "Connaissance client", txt: "Comprenez les problématiques avant de proposer", det: "Personnalisez chaque solution selon le secteur, la marchandise et les impératifs." },
+  { cat: "Argumentation", txt: "Valorisez le réseau : 21 pays européens", det: "Des chiffres concrets rassurent et crédibilisent votre offre auprès des prospects." },
+  { cat: "Offre globale", txt: "Vendez une solution logistique complète", det: "Express, Sur-Mesure, Fresh, Green : couvrez toute la chaîne logistique." },
+  { cat: "Personnalisation", txt: "Chez Belgatrans, le standard c'est la personnalisation", det: "Véhicule adéquat, prestation sur-mesure, livraison express ou juste-à-temps." },
+  { cat: "Urgences", txt: "Les urgences sont une opportunité commerciale", det: "Transport de nuit, dernier kilomètre, délais courts : soyez là quand les autres ne peuvent pas." },
+  { cat: "Confiance & suivi", txt: "Honorez les engagements client comme les vôtres", det: "Le suivi continu et les outils connectés font partie de l'expérience Belgatrans." },
+  { cat: "Eco-responsabilité", txt: "Mettez en avant le Transport Green", det: "Réduire l'empreinte carbone est un argument de vente croissant chez les industriels." },
+  { cat: "Marchandises spéciales", txt: "Maîtrisez chaque cas : fragile, froid, volumineux", det: "Le service Fresh est un différenciateur fort — peu de concurrents maîtrisent le froid express." },
+  { cat: "Positionnement", txt: "Soyez un accélérateur de croissance", det: "\"Nous conduisons vos ambitions.\" — faites de cette phrase votre accroche commerciale." },
+  { cat: "Fidélisation", txt: "Un client satisfait est un partenaire à long terme", det: "Le partenariat durable est plus rentable que la vente ponctuelle. Cultivez la relation." }
+];
+
+let cur = 0, timer = null;
+const slider = document.getElementById('slider');
+const dotsRow = document.getElementById('dotsRow');
+const fillEl = document.getElementById('progressFill');
+
+conseils.forEach((c, i) => {
+  const s = document.createElement('div');
+  s.className = 'slide' + (i === 0 ? ' active' : '');
+  s.innerHTML = `<div class="slide-cat">${c.cat}</div><div class="slide-txt">${c.txt}</div><div class="slide-det">${c.det}</div>`;
+  slider.appendChild(s);
+
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', 'Conseil ' + (i + 1));
+  d.onclick = () => goTo(i);
+  dotsRow.appendChild(d);
+});
+
+function goTo(idx) {
+  document.querySelectorAll('.slide')[cur].classList.remove('active');
+  document.querySelectorAll('.dot')[cur].classList.remove('active');
+  cur = idx;
+  document.querySelectorAll('.slide')[cur].classList.add('active');
+  document.querySelectorAll('.dot')[cur].classList.add('active');
+
+  clearTimeout(timer);
+  fillEl.style.transition = 'none';
+  fillEl.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fillEl.style.transition = 'width ' + DURATION + 'ms linear';
+    fillEl.style.width = '100%';
+  }));
+  timer = setTimeout(() => goTo((cur + 1) % conseils.length), DURATION);
+}
+
+goTo(0);
+</script>
+</body>
+</html>
