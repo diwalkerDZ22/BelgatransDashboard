@@ -28,7 +28,6 @@
 
   body {
     display: grid;
-    /* TOP: header / MIDDLE: slide zone / BOTTOM: team */
     grid-template-rows: 7vh 4vh 45vh auto 1fr;
     font-family: 'Barlow', sans-serif;
   }
@@ -43,15 +42,6 @@
     border-bottom: 1px solid rgba(255,255,255,0.07);
   }
 
-  /*
-  ══════════════════════════════════════════════
-    ► IMAGE BELGATRANS x YATEK (complète)
-    Remplace le src ci-dessous par le chemin
-    vers ton fichier, par exemple :
-      src="./images/belgatrans-x-yatek.png"
-    Hauteur recommandée : 7vh
-  ══════════════════════════════════════════════
-  */
   .logo-main {
     height: 7vh;
     object-fit: contain;
@@ -165,16 +155,36 @@
     transform: scale(1.25);
   }
 
-  /* ─── TEAM SECTION ─── */
+  /* ─── TEAMS WRAPPER ─── */
+  .teams-wrapper {
+    display: flex;
+    align-items: stretch;
+    background: var(--bg);
+    min-height: 24vh;
+  }
+
+  /* ─── TEAM SECTION (shared) ─── */
   .team-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
-    padding: 3vh 0 4vh;
+    padding: 3vh 2vw 4vh;
     gap: 4vh;
-    min-height: 24vh;
+    flex: 1;
+  }
+
+  /* divider between the two team blocks */
+  .team-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+    margin: 3vh 0 4vh;
+    align-self: stretch;
+  }
+
+  /* support team has a subtle left accent */
+  .team-section.support {
+    background: rgba(204, 26, 26, 0.04);
   }
 
   .team-label {
@@ -193,6 +203,11 @@
     align-items: flex-start;
   }
 
+  /* support team members closer together */
+  .team-section.support .team-members {
+    gap: 4vw;
+  }
+
   .member {
     display: flex;
     flex-direction: column;
@@ -200,16 +215,6 @@
     gap: 4vh;
   }
 
-  /*
-  ══════════════════════════════════════════════
-    ► PHOTOS DE L'ÉQUIPE
-    Chaque avatar <img> ci-dessous a un src vide.
-    Remplace-le par le chemin vers la photo,
-    par exemple :
-      src="./photos/touati-elicia.jpg"
-    Format recommandé : carré, min 300×300px
-  ══════════════════════════════════════════════
-  */
   .avatar {
     width: clamp(120px, 18vh, 180px);
     height: clamp(120px, 18vh, 180px);
@@ -240,6 +245,33 @@
     letter-spacing: 0.05em;
     line-height: 1.2;
   }
+
+  /* ─── AVATAR PLACEHOLDER (+ icon) ─── */
+  .avatar-placeholder {
+    width: clamp(120px, 18vh, 180px);
+    height: clamp(120px, 18vh, 180px);
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 2px dashed rgba(204,26,26,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(var(--scale, 1));
+    transform-origin: center center;
+  }
+
+  .avatar-placeholder.zoom-3 {
+    --scale: 1.3;
+  }
+
+  .avatar-placeholder svg {
+    width: clamp(32px, 5vh, 52px);
+    height: clamp(32px, 5vh, 52px);
+    stroke: rgba(204,26,26,0.7);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
 </style>
 </head>
 <body>
@@ -247,11 +279,6 @@
 <!-- ═══════ HEADER ═══════ -->
 <header>
   <div class="logo-group">
-    <!--
-      ► IMAGE COMPLÈTE "BELGATRANS x YATEK"
-      Remplace src="" par le chemin de ton image
-      Exemple : src="./images/belgatrans-x-yatek.png"
-    -->
     <img class="logo-main" src="BelgatransXyatek.png" alt="Belgatrans x Yatek">
   </div>
 </header>
@@ -272,40 +299,64 @@
 <!-- ═══════ DOTS ═══════ -->
 <div class="dots-row" id="dotsRow"></div>
 
-<!-- ═══════ ÉQUIPE ═══════ -->
-<div class="team-section">
-  <div class="team-label">L'Équipe</div>
-  <div class="team-members">
+<!-- ═══════ TEAMS WRAPPER ═══════ -->
+<div class="teams-wrapper">
 
-    <div class="member">
-      <!--
-        ► PHOTO TOUATI ELICIA
-        Remplace src="" par le chemin de sa photo
-        Exemple : src="./photos/touati-elicia.jpg"
-      -->
-      <img class="avatar zoom-3" src="Elicia.jpg" alt="Touati Elicia">
-      <div class="member-name">Touati<br>Elicia</div>
+  <!-- ÉQUIPE PRINCIPALE -->
+  <div class="team-section">
+    <div class="team-label">L'Équipe</div>
+    <div class="team-members">
+
+      <div class="member">
+        <img class="avatar zoom-3" src="Elicia.jpg" alt="Touati Elicia">
+        <div class="member-name">Touati<br>Elicia</div>
+      </div>
+
+      <div class="member">
+        <img class="avatar zoom-3" src="Abdeljalil.jpeg" alt="Zoubiri Abdeljalil">
+        <div class="member-name">Zoubiri<br>Abdeljalil</div>
+      </div>
+
+      <div class="member">
+        <img class="avatar zoom-3" src="Nedjma.png" alt="Dali Nedjma">
+        <div class="member-name">Dali<br>Nedjma</div>
+      </div>
+
     </div>
-
-    <div class="member">
-      <!--
-        ► PHOTO ZOUBIRI ABDELJALIL
-        Exemple : src="./photos/zoubiri-abdeljalil.jpg"
-      -->
-      <img class="avatar zoom-3 " src="Abdeljalil.jpeg" alt="Zoubiri Abdeljalil">
-      <div class="member-name">Zoubiri<br>Abdeljalil</div>
-    </div>
-
-    <div class="member">
-      <!--
-        ► PHOTO DALI NEDJMA
-        Exemple : src="./photos/dali-nedjma.jpg"
-      -->
-      <img class="avatar zoom-3 " src="Nedjma.png" alt="Dali Nedjma">
-      <div class="member-name">Dali<br>Nedjma</div>
-    </div>
-
   </div>
+
+  <!-- DIVIDER -->
+  <div class="team-divider"></div>
+
+  <!-- ÉQUIPE SUPPORT -->
+  <div class="team-section support">
+    <div class="team-label">Équipe Support</div>
+    <div class="team-members">
+
+      <div class="member">
+        <div class="avatar-placeholder zoom-3">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="member-name">Poste 1</div>
+      </div>
+
+      <div class="member">
+        <div class="avatar-placeholder zoom-3">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="member-name">Poste 2</div>
+      </div>
+
+      <div class="member">
+        <div class="avatar-placeholder zoom-3">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="member-name">Poste 3</div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script>
